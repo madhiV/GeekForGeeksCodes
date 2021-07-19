@@ -1,23 +1,27 @@
 class Solution { 
     int shortestPath( int x, int y){ 
-        // code here
-        int temp,t,count=0;
-        Set<Integer> set=new HashSet<>();
-        temp=Math.max(x,y);
-        while(temp>=0){
-            temp/=2;
-            set.add(temp);
-            if(temp==0){
-                break;
+        Map<Integer,Integer> map=new HashMap<>();
+        int count=0;
+        int temp=x;
+        x=Math.min(x,y);
+        y=Math.max(temp,y);
+        while(y!=0){
+            y/=2;
+            count+=1;
+            map.put(y,count);
+            if(y==x){
+                return count;
             }
         }
-        temp=Math.min(x,y);
-        while(!set.contains(temp)){
-            temp/=2;
+        map.put(0,count);
+        count=0;
+        while(!map.containsKey(x)){
+            count+=1;
+            x/=2;
+            if(map.containsKey(x)){
+                count+=map.get(x);
+            }
         }
-        temp=(int)(Math.log(temp)/Math.log(2));
-        count+=(int)(Math.log(x)/Math.log(2))-temp;
-        count+=(int)(Math.log(y)/Math.log(2))-temp;
         return count;
     }
 }
